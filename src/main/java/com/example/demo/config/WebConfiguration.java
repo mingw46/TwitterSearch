@@ -1,11 +1,16 @@
 package com.example.demo.config;
 
 import com.example.demo.date.USLocalDateFormatter;
+
+import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
+import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
+import org.springframework.boot.web.servlet.ErrorPage;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -28,7 +33,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver sessionLocaleResolver = new SessionLocaleResolver();
-        sessionLocaleResolver.setDefaultLocale(Locale.US);
+       // sessionLocaleResolver.setDefaultLocale(Locale.US);
         return sessionLocaleResolver;
     }
 
@@ -52,6 +57,13 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
             registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
         }
         registry.setOrder(1);
+    }
+
+    @Bean
+    public EmbeddedServletContainerCustomizer containerCustomizer() {
+        return container -> container.addErrorPages(new
+                ErrorPage(MultipartException.class,
+                "/uploadError"));
     }
 
 

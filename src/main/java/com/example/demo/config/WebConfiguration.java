@@ -12,13 +12,12 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+import org.springframework.web.util.UrlPathHelper;
+
 import java.time.LocalDate;
 import java.util.Locale;
 
@@ -33,7 +32,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver sessionLocaleResolver = new SessionLocaleResolver();
-       // sessionLocaleResolver.setDefaultLocale(Locale.US);
+       // sessionLocaleResolver.setDefaultLocale(Locale.PL);
         return sessionLocaleResolver;
     }
 
@@ -78,6 +77,13 @@ return embeddedServletContainerCustomizer;
         return container -> container.addErrorPages(new
                 ErrorPage(MultipartException.class,
                 "/uploadError"));
+    }
+
+    @Override
+    public void configurePathMatch(PathMatchConfigurer configurer) {
+        UrlPathHelper urlPathHelper = new UrlPathHelper();
+        urlPathHelper.setRemoveSemicolonContent(false);
+        configurer.setUrlPathHelper(urlPathHelper);
     }
 
 

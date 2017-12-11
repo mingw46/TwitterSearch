@@ -31,6 +31,9 @@ public class PictureUploadController {
     private final Resource picturesDir;
     private final Resource anonymousPicture;
 
+    @Autowired
+    UserProfileSession userProfileSession;
+
     private final MessageSource messageSource;
     @Autowired
     public PictureUploadController(PictureUploadProperties uploadProperties,
@@ -48,6 +51,7 @@ public class PictureUploadController {
 
     @RequestMapping("upload")
     public String uploadPage() {
+        
         return "profile/uploadPage";
     }
 
@@ -64,7 +68,7 @@ public class PictureUploadController {
         return "profile/uploadPage";
     }*/
 
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    @RequestMapping(value = "/profile", params = {"upload"}, method = RequestMethod.POST)
     public String onUpload(MultipartFile file, RedirectAttributes redirectAttrs,
                            Model model) throws IOException {
         if (file.isEmpty() || !isImage(file)) {
@@ -75,8 +79,9 @@ public class PictureUploadController {
         //Resource picturePath = copyFileToPictures(file);
        // model.addAttribute("picturePath", picturePath);
         Resource picturePath = copyFileToPictures(file);
-        model.addAttribute("picturePath", picturePath);
-        return "profile/uploadPage";
+       // model.addAttribute("picturePath", picturePath);
+        userProfileSession.setPicturePath(picturePath);
+        return "redirect:profile";
     }
 
 

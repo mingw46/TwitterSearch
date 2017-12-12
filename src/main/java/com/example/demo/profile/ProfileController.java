@@ -38,16 +38,7 @@ public class ProfileController {
         return "profile/profilePage";
     }
 
-    @RequestMapping(value = "/profile", params = {"save"}, method =
-            RequestMethod.POST)
-    public String saveProfile(@Valid ProfileForm profileForm,
-                              BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "profile/profilePage";
-        }
-        userProfileSession.saveForm(profileForm);
-        return "redirect:/profile";
-    }
+
 
     @RequestMapping(value = "/profile", params = {"addTaste"})
     public String addRow(ProfileForm profileForm) {
@@ -60,6 +51,16 @@ public class ProfileController {
         Integer rowId = Integer.valueOf(req.getParameter("removeTaste"));
         profileForm.getTastes().remove(rowId.intValue());
         return "profile/profilePage";
+    }
+
+    @RequestMapping(value = "/profile", params = {"searchPreferences"}, method = RequestMethod.POST)
+    public String saveProfile(@Valid ProfileForm profileForm, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "profile/profilePage";
+        }
+        userProfileSession.saveForm(profileForm);
+        return "redirect:/search/mixed;keywords=" + String.join(",",
+                profileForm.getTastes());
     }
 
 

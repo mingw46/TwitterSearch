@@ -35,7 +35,7 @@ public class SearchController {
 
         return modelAndView;
     }
-    @RequestMapping(value = "/profile", params = {"searchPreferences"}, method = RequestMethod.POST)
+ /*   @RequestMapping(value = "/profile", params = {"searchPreferences"}, method = RequestMethod.POST)
     public String searchPreferences(@Valid ProfileForm profileForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "profile/profilePage";
@@ -44,5 +44,5 @@ public class SearchController {
 
         return "redirect:/search/mixed;keywords=" + String.join(",",
                 profileForm.getTastes());
-    }
+    }*/
 }

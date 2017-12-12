@@ -25,10 +25,10 @@ public class TweetController {
     String accessTokenSecret = "p1vsfmim535c6K3sNKtDHGXaxAFJJEBPvwHIKiqR0l9Ha"; // The access token secret granted after OAuth authorization
     Twitter twitter = new TwitterTemplate(consumerKey, consumerSecret, accessToken, accessTokenSecret);
 
-    @RequestMapping("/")
-    public String home() {
-        return "searchPage";
-    }
+    //@RequestMapping("/")
+    //public String home() {
+   //     return "searchPage";
+ //   }
 
 
     @RequestMapping(value = "/postSearch", method = RequestMethod.POST)

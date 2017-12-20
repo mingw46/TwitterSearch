@@ -10,7 +10,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @SpringBootApplication
-@EnableWebMvc
 @EnableConfigurationProperties({PictureUploadProperties.class})
 public class DemoApplication extends WebMvcConfigurerAdapter {
 

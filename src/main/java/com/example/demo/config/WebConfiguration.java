@@ -21,12 +21,15 @@ import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.util.UrlPathHelper;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.time.LocalDate;
 import java.util.Locale;
 
 @Configuration
-@EnableWebMvc
+@EnableSwagger2
 public class WebConfiguration extends WebMvcConfigurerAdapter {
     @Override
     public void addFormatters(FormatterRegistry registry) {
@@ -88,6 +91,7 @@ return embeddedServletContainerCustomizer;
         UrlPathHelper urlPathHelper = new UrlPathHelper();
         urlPathHelper.setRemoveSemicolonContent(false);
         configurer.setUrlPathHelper(urlPathHelper);
+        configurer.setUseRegisteredSuffixPatternMatch(true);
     }
 
     @Bean
@@ -96,6 +100,14 @@ return embeddedServletContainerCustomizer;
         ObjectMapper objectMapper = builder.createXmlMapper(false).build();
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         return objectMapper;
+    }
+
+    @Bean
+    public Docket userApi(){
+        return new Docket(DocumentationType.SWAGGER_2)
+                .select()
+                .paths(path -> path.startsWith("/api/"))
+                .build();
     }
 
 }
